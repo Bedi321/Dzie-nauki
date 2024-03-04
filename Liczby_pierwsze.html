@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Liczby pierwsze</title>
+</head>
+<body bgcolor="lightblue">
+    <form>
+        Podaj liczbę:
+        <input type="number" id="liczba"><br><br>
+        <button type="submit">Sprawdź i rozłóż na czynniki pierwsze</button><hr>
+    </form>
+    <div id="wynik"></div>
+
+<script>
+    function czyPierwsza(n) {
+        if (n <= 1){
+            return "Nie";
+        }
+        for (let i = 2; i <= Math.floor(Math.sqrt(n)); i++) {
+            if (n % i === 0) {
+                return "Nie";
+            }
+        }
+        return "Tak";
+    }
+
+    function rozklad(n) {
+        let czynniki = [];
+        let dzielnik = 2;
+        while (n > 1 && dzielnik <= Math.floor(Math.sqrt(n))) {
+            while (n % dzielnik === 0) {
+                czynniki.push(dzielnik);
+                n /= dzielnik;
+            }
+            dzielnik++;
+        }
+        if (n > 1) {
+            czynniki.push(n);
+        }
+        return czynniki;
+    }
+
+    document.querySelector('form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const liczba = document.getElementById("liczba").value;
+        const wynik = document.getElementById("wynik");
+        
+        const wynik1 = czyPierwsza(liczba);
+        const wynik2 = rozklad(liczba);
+
+        let wynikHTML = "<p>Czy liczba jest liczbą pierwszą: " + wynik1 + "</p>";
+        wynikHTML += "<p>Rozkład na czynniki pierwsze: " + wynik2.join(", ") + "</p>";
+
+        wynik.innerHTML = wynikHTML;
+    });
+</script>
+</body>
+</html>
